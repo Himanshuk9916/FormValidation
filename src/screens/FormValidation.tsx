@@ -10,6 +10,19 @@ import * as Yup from 'yup';
 import InputText from '../components/InputText';
 
 const screenWidth = Dimensions.get('window').width;
+const BdayRegex=/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/ ;
+const passRegex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/ ;
+
+//Here is the function for api calls
+let url="https://jsonplaceholder.typicode.com"
+let data=["users","list"]
+if(url){
+    data.forEach((item)=>{
+        url += `/${item}`
+    })
+    console.log('url',url)
+}
+//Function for api calls ends
 
 function FormValidation() {
   const userInfo = {
@@ -28,13 +41,13 @@ function FormValidation() {
       .required('This Field is required'),
     email: Yup.string().email('Invalid Email').required('Email is required'),
     birthday:Yup.string().trim()
-    .matches(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/,'Enter valid Date')
+    .matches(BdayRegex,'Enter valid Date')
     .required('This Filed is Required'),
     password: Yup.string()
       .trim()
       .min(8, 'Password in too short')
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        passRegex,
         "Must Contain atleast 8 Characters, One Uppercase, One Lowercase, One Number and one Character"
       )
       .required('This field is required'),
